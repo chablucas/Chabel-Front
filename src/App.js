@@ -1,25 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
-function App() {
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+
+import RecentTournaments from "./pages/RecentTournaments";
+import CreateOfficial from "./pages/CreateOfficial";
+import TournamentDetail from "./pages/TournamentDetail";
+import WinnerPage from "./pages/WinnerPage";
+import DrawPage from "./pages/DrawPage";
+
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Header />
+
+      <Routes>
+        {/* Redirections pour éviter page blanche */}
+        <Route path="/" element={<Navigate to="/recent" replace />} />
+
+        <Route path="/recent" element={<RecentTournaments />} />
+        <Route path="/create" element={<CreateOfficial />} />
+        <Route path="/tournament/:id" element={<TournamentDetail />} />
+        <Route path="/winner/:id" element={<WinnerPage />} />
+        <Route path="/draw" element={<DrawPage />} />
+
+        {/* fallback */}
+        <Route path="*" element={<Navigate to="/recent" replace />} />
+      </Routes>
+
+      <Footer />
+    </BrowserRouter>
   );
 }
-
-export default App;
