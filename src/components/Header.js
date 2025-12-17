@@ -1,24 +1,25 @@
-import { Link } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import "./Header.css";
+import logo from "../assets/Logo-bg.png";
 
 export default function Header() {
-  return (
-    <header
-      style={{
-        padding: 16,
-        borderBottom: "1px solid #333",
-        display: "flex",
-        gap: 16,
-        alignItems: "center",
-      }}
-    >
-      <strong>The Legacy Eleven</strong>
+  const navigate = useNavigate();
 
-      <nav style={{ display: "flex", gap: 12 }}>
-        <Link to="/">Home</Link>
-        <Link to="/create">Créer</Link>
-        <Link to="/recent">Récents</Link>
-        <Link to="/wtf">WTF</Link>
-      </nav>
+  return (
+    <header className="header">
+      <div className="header__inner">
+        <button type="button" className="header__brandBtn" onClick={() => navigate("/")}>
+          <img src={logo} alt="Legacy Eleven" className="header__logoImg" />
+          <span className="header__title">Legacy Eleven</span>
+        </button>
+
+        <nav className="header__nav">
+          <NavLink to="/recent" className={({ isActive }) => isActive ? "header__link header__link--active" : "header__link"}>Récents</NavLink>
+          <NavLink to="/create" className={({ isActive }) => isActive ? "header__link header__link--active" : "header__link"}>Créer</NavLink>
+          <NavLink to="/draw" className={({ isActive }) => isActive ? "header__link header__link--active" : "header__link"}>Tirage</NavLink>
+          <NavLink to="/wtf" className={({ isActive }) => isActive ? "header__link header__link--active" : "header__link"}>WTF</NavLink>
+        </nav>
+      </div>
     </header>
   );
 }

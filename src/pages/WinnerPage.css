@@ -1,0 +1,48 @@
+.page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 18px 16px;
+}
+
+.page--center {
+  display: flex;
+  justify-content: center;
+}
+
+.loading {
+  padding: 16px;
+}
+
+.card {
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 18px;
+  padding: 18px;
+  background: rgba(255,255,255,0.04);
+}
+
+.winnerCard {
+  text-align: center;
+  width: min(700px, 100%);
+}
+
+.winnerTitle {
+  margin: 0;
+}
+
+.winnerName {
+  font-size: 28px;
+  font-weight: 900;
+  margin: 18px 0;
+}
+
+.btn {
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.18);
+  color: white;
+  cursor: pointer;
+}
+
+.btn--primary {
+  background: rgba(255,255,255,0.12);
+}

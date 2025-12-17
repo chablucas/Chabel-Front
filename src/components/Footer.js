@@ -1,14 +1,13 @@
+import "./Footer.css";
+
 export default function Footer() {
   return (
-    <footer
-      style={{
-        padding: 16,
-        borderTop: "1px solid #333",
-        textAlign: "center",
-        opacity: 0.7,
-      }}
-    >
-      © {new Date().getFullYear()} The Legacy Eleven — Projet personnel
+    <footer className="footer">
+      <div className="footer__inner">
+        <span>© {new Date().getFullYear()} Legacy Eleven</span>
+        <span className="footer__sep">•</span>
+        <span className="footer__muted">Tournois FIFA/FC — Pascal & Lucas</span>
+      </div>
     </footer>
   );
 }

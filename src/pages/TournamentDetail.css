@@ -1,0 +1,146 @@
+.page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 18px 16px;
+  display: grid;
+  gap: 16px;
+}
+
+.loading {
+  padding: 16px;
+}
+
+.pageTitle {
+  margin: 0;
+  font-weight: 900;
+}
+
+.hint {
+  opacity: 0.8;
+  margin-top: 4px;
+}
+
+.detailHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.blocks {
+  display: grid;
+  gap: 16px;
+}
+
+.block {
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 16px;
+  padding: 12px;
+  background: rgba(255,255,255,0.04);
+}
+
+.blockTitle {
+  margin: 0 0 10px 0;
+}
+
+.matchList {
+  display: grid;
+  gap: 10px;
+}
+
+/* MatchRow */
+.matchRow {
+  display: grid;
+  grid-template-columns: 1fr 70px 30px 70px 1fr 170px;
+  gap: 8px;
+  align-items: center;
+  padding: 10px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(0,0,0,0.14);
+}
+
+.matchTeam {
+  font-weight: 800;
+}
+
+.matchTeam--away {
+  text-align: right;
+}
+
+.matchScore {
+  width: 100%;
+  padding: 6px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(0,0,0,0.25);
+  color: white;
+  outline: none;
+}
+
+.matchDash {
+  text-align: center;
+  opacity: 0.85;
+}
+
+.matchAction {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.matchInfo {
+  opacity: 0.95;
+}
+
+.matchInfo--muted {
+  opacity: 0.75;
+}
+
+.tableWrap {
+  overflow-x: auto;
+  margin-bottom: 12px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th {
+  text-align: left;
+  opacity: 0.9;
+  padding: 8px 6px;
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+}
+
+.table td {
+  padding: 8px 6px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.tableTeam {
+  font-weight: 800;
+}
+
+.note {
+  opacity: 0.85;
+  font-size: 13px;
+}
+
+/* Boutons */
+.btn {
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.18);
+  color: white;
+  cursor: pointer;
+}
+
+.btn--primary { background: rgba(255,255,255,0.12); }
+.btn--ghost { background: transparent; }
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

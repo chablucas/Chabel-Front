@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api";
+import "./RecentTournaments.css";
 
 export default function RecentTournaments() {
   const [tournaments, setTournaments] = useState([]);
@@ -38,51 +39,54 @@ export default function RecentTournaments() {
     }
   }
 
-  if (loading) return <div style={{ padding: 16 }}>Chargement...</div>;
+  if (loading) return <div className="loading">Chargement...</div>;
 
   return (
-    <div style={{ padding: 16 }}>
-      <h2>Tournois récents</h2>
+    <div className="page">
+      <div className="card">
+        <div className="headerRow">
+          <h2 className="pageTitle">Tournois récents</h2>
+          <button className="btn btn--ghost" type="button" onClick={load}>
+            Rafraîchir
+          </button>
+        </div>
 
-      {tournaments.length === 0 ? (
-        <p>Aucun tournoi.</p>
-      ) : (
-        <div style={{ display: "grid", gap: 12 }}>
-          {tournaments.map((t) => (
-            <div
-              key={t._id}
-              style={{
-                border: "1px solid rgba(255,255,255,0.2)",
-                borderRadius: 12,
-                padding: 12,
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <div>
-                <div style={{ fontWeight: 800 }}>{t.name}</div>
-                <div style={{ opacity: 0.8 }}>
-                  Mode : {t.mode === "groups32" ? "Poules (32)" : "Éliminatoire"}
+        {tournaments.length === 0 ? (
+          <p className="hint">Aucun tournoi.</p>
+        ) : (
+          <div className="list">
+            {tournaments.map((t) => (
+              <div className="row" key={t._id}>
+                <div className="rowLeft">
+                  <div className="rowTitle">{t.name}</div>
+                  <div className="rowSub">
+                    Mode : {t.mode === "groups32" ? "Poules (32)" : "Éliminatoire"}
+                  </div>
+                </div>
+
+                <div className="rowActions">
+                  <button
+                    className="btn btn--primary"
+                    type="button"
+                    onClick={() => navigate(`/tournament/${t._id}`)}
+                  >
+                    Ouvrir
+                  </button>
+
+                  <button
+                    className="btn btn--danger"
+                    type="button"
+                    onClick={() => handleDelete(t._id)}
+                    disabled={busyId === t._id}
+                  >
+                    {busyId === t._id ? "Suppression..." : "Supprimer"}
+                  </button>
                 </div>
               </div>
-
-              <div style={{ display: "flex", gap: 8 }}>
-                <button onClick={() => navigate(`/tournaments/${t._id}`)}>
-                  Ouvrir
-                </button>
-                <button
-                  onClick={() => handleDelete(t._id)}
-                  disabled={busyId === t._id}
-                  style={{ opacity: busyId === t._id ? 0.6 : 1 }}
-                >
-                  {busyId === t._id ? "Suppression..." : "Supprimer"}
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

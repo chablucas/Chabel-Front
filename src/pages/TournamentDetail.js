@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../api";
+import "./TournamentDetail.css";
 
 function MatchRow({ match, onChangeScore, onValidate, disabled }) {
   const home = match.home || "—";
@@ -9,83 +10,47 @@ function MatchRow({ match, onChangeScore, onValidate, disabled }) {
   const isBye =
     (!!match.home && !match.away) || (!match.home && !!match.away) || (!match.home && !match.away);
 
-  const scoreDisabled =
-    disabled || match.isValidated || isBye || !match.home || !match.away;
+  const scoreDisabled = disabled || match.isValidated || isBye || !match.home || !match.away;
 
   return (
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: "1fr 70px 30px 70px 1fr 170px",
-        gap: 8,
-        alignItems: "center",
-        padding: 10,
-        borderRadius: 12,
-        border: "1px solid rgba(255,255,255,0.15)",
-      }}
-    >
-      <div style={{ fontWeight: 700 }}>{home}</div>
+    <div className="matchRow">
+      <div className="matchTeam matchTeam--home">{home}</div>
 
       <input
+        className="matchScore"
         type="number"
         min={0}
         value={match.homeScore ?? 0}
         disabled={scoreDisabled}
-        onChange={(e) =>
-          onChangeScore(match.matchId, "homeScore", Number(e.target.value))
-        }
-        style={{
-          width: "100%",
-          padding: 6,
-          borderRadius: 8,
-          border: "1px solid rgba(255,255,255,0.2)",
-          background: "rgba(0,0,0,0.15)",
-          color: "white",
-        }}
+        onChange={(e) => onChangeScore(match.matchId, "homeScore", Number(e.target.value))}
       />
 
-      <div style={{ textAlign: "center", opacity: 0.85 }}>-</div>
+      <div className="matchDash">-</div>
 
       <input
+        className="matchScore"
         type="number"
         min={0}
         value={match.awayScore ?? 0}
         disabled={scoreDisabled}
-        onChange={(e) =>
-          onChangeScore(match.matchId, "awayScore", Number(e.target.value))
-        }
-        style={{
-          width: "100%",
-          padding: 6,
-          borderRadius: 8,
-          border: "1px solid rgba(255,255,255,0.2)",
-          background: "rgba(0,0,0,0.15)",
-          color: "white",
-        }}
+        onChange={(e) => onChangeScore(match.matchId, "awayScore", Number(e.target.value))}
       />
 
-      <div style={{ fontWeight: 700, textAlign: "right" }}>{away}</div>
+      <div className="matchTeam matchTeam--away">{away}</div>
 
-      <div style={{ display: "flex", justifyContent: "flex-end", gap: 10 }}>
+      <div className="matchAction">
         {match.isValidated ? (
-          <span style={{ opacity: 0.95 }}>
+          <span className="matchInfo">
             ✅ Validé{match.winner ? ` → ${match.winner}` : ""}
           </span>
         ) : isBye ? (
-          <span style={{ opacity: 0.8 }}>BYE / Slot vide</span>
+          <span className="matchInfo matchInfo--muted">BYE / Slot vide</span>
         ) : (
           <button
+            className="btn btn--primary"
             onClick={() => onValidate(match)}
             disabled={disabled || !match.home || !match.away}
-            style={{
-              padding: "8px 12px",
-              borderRadius: 10,
-              border: "1px solid rgba(255,255,255,0.2)",
-              background: "rgba(255,255,255,0.08)",
-              color: "white",
-              cursor: "pointer",
-              opacity: disabled ? 0.6 : 1,
-            }}
+            type="button"
           >
             Match validé
           </button>
@@ -103,7 +68,6 @@ export default function TournamentDetail() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
 
-  // ✅ FIX ESLINT: load est dans le useEffect
   useEffect(() => {
     const load = async () => {
       setLoading(true);
@@ -123,10 +87,7 @@ export default function TournamentDetail() {
 
   const knockoutRounds = useMemo(() => {
     if (!tournament?.knockout?.rounds) return [];
-
-    // Selon comment Mongo/Express renvoie ton Map, ça peut être un objet
     const roundsObj = tournament.knockout.rounds;
-
     const order = ["R32", "R16", "QF", "SF", "F"];
     return order
       .filter((k) => Array.isArray(roundsObj[k]) && roundsObj[k].length > 0)
@@ -136,7 +97,6 @@ export default function TournamentDetail() {
   function updateLocalScore(matchId, field, value) {
     setTournament((prev) => {
       if (!prev) return prev;
-
       const clone = structuredClone(prev);
 
       if (clone.mode === "groups32") {
@@ -173,7 +133,6 @@ export default function TournamentDetail() {
 
       setTournament(res.data);
 
-      // Si un vainqueur existe => page winner
       if (res.data?.knockout?.winner) {
         navigate(`/winner/${id}`);
       }
@@ -185,58 +144,38 @@ export default function TournamentDetail() {
     }
   }
 
-  if (loading) return <div style={{ padding: 16 }}>Chargement...</div>;
-  if (!tournament) return <div style={{ padding: 16 }}>Tournoi introuvable.</div>;
+  if (loading) return <div className="loading">Chargement...</div>;
+  if (!tournament) return <div className="loading">Tournoi introuvable.</div>;
 
   return (
-    <div style={{ padding: 16, display: "grid", gap: 16 }}>
+    <div className="page">
       {/* HEADER */}
-      <div style={{ display: "flex", justifyContent: "space-between", gap: 12 }}>
+      <div className="detailHeader">
         <div>
-          <h2 style={{ margin: 0 }}>{tournament.name}</h2>
-          <div style={{ opacity: 0.8 }}>
+          <h2 className="pageTitle">{tournament.name}</h2>
+          <div className="hint">
             Mode :{" "}
-            {tournament.mode === "groups32"
-              ? "Poules (32 équipes)"
-              : "Éliminatoire direct"}
+            {tournament.mode === "groups32" ? "Poules (32 équipes)" : "Éliminatoire direct"}
           </div>
         </div>
 
-        <button
-          onClick={() => navigate("/")}
-          style={{
-            padding: "8px 12px",
-            borderRadius: 10,
-            border: "1px solid rgba(255,255,255,0.2)",
-            background: "rgba(255,255,255,0.08)",
-            color: "white",
-            cursor: "pointer",
-          }}
-        >
+        <button className="btn btn--ghost" onClick={() => navigate("/")} type="button">
           Home
         </button>
       </div>
 
       {/* MODE POULES */}
       {tournament.mode === "groups32" && (
-        <div style={{ display: "grid", gap: 18 }}>
+        <div className="blocks">
           {(tournament.groups || []).map((g) => (
-            <div
-              key={g.key}
-              style={{
-                border: "1px solid rgba(255,255,255,0.2)",
-                borderRadius: 14,
-                padding: 12,
-              }}
-            >
-              <h3 style={{ marginTop: 0 }}>Groupe {g.key}</h3>
+            <div className="block" key={g.key}>
+              <h3 className="blockTitle">Groupe {g.key}</h3>
 
-              {/* Classement (si fourni par le backend) */}
               {tournament.tables?.[g.key] && (
-                <div style={{ overflowX: "auto", marginBottom: 12 }}>
-                  <table style={{ width: "100%", borderCollapse: "collapse" }}>
+                <div className="tableWrap">
+                  <table className="table">
                     <thead>
-                      <tr style={{ textAlign: "left", opacity: 0.9 }}>
+                      <tr>
                         <th>Équipe</th>
                         <th>Pts</th>
                         <th>J</th>
@@ -248,7 +187,7 @@ export default function TournamentDetail() {
                     <tbody>
                       {tournament.tables[g.key].map((row) => (
                         <tr key={row.team}>
-                          <td style={{ fontWeight: 700 }}>{row.team}</td>
+                          <td className="tableTeam">{row.team}</td>
                           <td>{row.pts}</td>
                           <td>{row.played}</td>
                           <td>{row.gf}</td>
@@ -261,8 +200,7 @@ export default function TournamentDetail() {
                 </div>
               )}
 
-              {/* Matchs */}
-              <div style={{ display: "grid", gap: 10 }}>
+              <div className="matchList">
                 {(g.matches || []).map((m) => (
                   <MatchRow
                     key={m.matchId}
@@ -276,32 +214,23 @@ export default function TournamentDetail() {
             </div>
           ))}
 
-          <div style={{ opacity: 0.85 }}>
-            ⚠️ Ici tu valides les matchs de poules. Si tu veux ensuite générer automatiquement l’éliminatoire
-            (top 2 de chaque groupe → 8e), je te le branche direct.
+          <div className="note">
+            ⚠️ Ici tu valides les matchs de poules. (Ensuite on peut générer l’éliminatoire automatiquement.)
           </div>
         </div>
       )}
 
       {/* MODE ELIMINATOIRE */}
       {tournament.mode === "knockout" && (
-        <div style={{ display: "grid", gap: 16 }}>
+        <div className="blocks">
           {knockoutRounds.length === 0 ? (
-            <p>
-              Aucun tableau généré (liste d’équipes vide). Si tu veux un écran “ajouter/sélectionner les équipes”
-              dans cette page, je te l’ajoute.
+            <p className="note">
+              Aucun tableau généré (liste d’équipes vide).
             </p>
           ) : (
             knockoutRounds.map((r) => (
-              <div
-                key={r.key}
-                style={{
-                  border: "1px solid rgba(255,255,255,0.2)",
-                  borderRadius: 14,
-                  padding: 12,
-                }}
-              >
-                <h3 style={{ marginTop: 0 }}>
+              <div className="block" key={r.key}>
+                <h3 className="blockTitle">
                   {r.key === "R32"
                     ? "32e"
                     : r.key === "R16"
@@ -313,7 +242,7 @@ export default function TournamentDetail() {
                     : "Finale"}
                 </h3>
 
-                <div style={{ display: "grid", gap: 10 }}>
+                <div className="matchList">
                   {r.matches.map((m) => (
                     <MatchRow
                       key={m.matchId}
@@ -329,17 +258,7 @@ export default function TournamentDetail() {
           )}
 
           {tournament.knockout?.winner && (
-            <button
-              onClick={() => navigate(`/winner/${id}`)}
-              style={{
-                padding: "10px 12px",
-                borderRadius: 12,
-                border: "1px solid rgba(255,255,255,0.2)",
-                background: "rgba(255,255,255,0.08)",
-                color: "white",
-                cursor: "pointer",
-              }}
-            >
+            <button className="btn btn--primary" onClick={() => navigate(`/winner/${id}`)} type="button">
               Voir le vainqueur
             </button>
           )}

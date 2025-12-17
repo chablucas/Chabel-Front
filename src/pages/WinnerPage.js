@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../api";
+import "./WinnerPage.css";
 
 export default function WinnerPage() {
   const { id } = useParams();
@@ -24,15 +25,21 @@ export default function WinnerPage() {
     load();
   }, [id]);
 
-  if (loading) return <div style={{ padding: 16 }}>Chargement...</div>;
+  if (loading) return <div className="loading">Chargement...</div>;
 
   return (
-    <div style={{ padding: 16, textAlign: "center" }}>
-      <h1>🏆 Vainqueur</h1>
-      <div style={{ fontSize: 28, fontWeight: 900, margin: "18px 0" }}>
-        {winner || "Pas de vainqueur pour l’instant"}
+    <div className="page page--center">
+      <div className="card winnerCard">
+        <h1 className="winnerTitle">🏆 Vainqueur</h1>
+
+        <div className="winnerName">
+          {winner || "Pas de vainqueur pour l’instant"}
+        </div>
+
+        <button className="btn btn--primary" onClick={() => navigate("/")}>
+          Retour Home
+        </button>
       </div>
-      <button onClick={() => navigate("/")}>Retour Home</button>
     </div>
   );
 }

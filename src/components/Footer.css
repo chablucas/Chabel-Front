@@ -1,0 +1,20 @@
+.footer{
+  margin-top: 24px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  background: rgba(8, 5, 18, 0.55);
+}
+
+.footer__inner{
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 14px 16px;
+  display:flex;
+  gap:10px;
+  justify-content:center;
+  align-items:center;
+  color: rgba(255,255,255,0.70);
+  font-size: 13px;
+}
+
+.footer__muted{ opacity: 0.85; }
+.footer__sep{ opacity: 0.35; }
