@@ -144,3 +144,154 @@
   opacity: 0.6;
   cursor: not-allowed;
 }
+
+.duelHeader{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:14px;
+  margin: 14px 0 18px;
+}
+
+.duelCard{
+  padding:14px;
+  border-radius:16px;
+  background: rgba(0,0,0,0.28);
+  border: 1px solid rgba(255,255,255,0.10);
+}
+
+.duelCardTitle{
+  font-weight: 950;
+  font-size: 16px;
+  margin-bottom: 6px;
+}
+
+.duelCardSub{
+  opacity:.75;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.duelTeams{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+
+.duelTeam{
+  padding:8px 10px;
+  border-radius:999px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.10);
+  font-weight: 800;
+  font-size: 12px;
+  opacity: .95;
+}
+
+@media (max-width: 950px){
+  .duelHeader{ grid-template-columns: 1fr; }
+}
+
+/* ===== BRACKET UI ===== */
+
+.bracketWrap{
+  display: grid;
+  grid-template-columns: repeat(5, minmax(220px, 1fr));
+  gap: 14px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+}
+
+.bracketCol{
+  padding: 12px;
+  border-radius: 16px;
+  background: rgba(0,0,0,0.20);
+  border: 1px solid rgba(255,255,255,0.10);
+  min-width: 220px;
+}
+
+.bracketColTitle{
+  font-weight: 950;
+  margin-bottom: 10px;
+  opacity: .95;
+}
+
+.bracketMatches{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.brMatch{
+  padding: 10px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.10);
+}
+
+.brMatch--validated{
+  border-color: rgba(45,210,140,0.28);
+  background: rgba(45,210,140,0.08);
+}
+
+.brLine{
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.brTeam{
+  font-weight: 850;
+  font-size: 13px;
+  opacity: .95;
+  flex: 1;
+}
+
+.brScore{
+  width: 64px;
+  height: 34px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.16);
+  background: rgba(0,0,0,0.25);
+  color: #fff;
+  font-weight: 900;
+  text-align: center;
+}
+
+.brAction{
+  display:flex;
+  align-items:center;
+  justify-content: flex-end;
+  margin-top: 4px;
+}
+
+.brBtn{
+  height: 34px;
+  padding: 0 12px;
+}
+
+.brInfo{
+  font-weight: 850;
+  font-size: 12px;
+  opacity: .9;
+}
+
+.brInfo--muted{
+  opacity: .65;
+}
+
+/* Duel chips coloring (optional) */
+.duelTeam--p1{
+  border-color: rgba(255, 80, 80, 0.25);
+}
+.duelTeam--p2{
+  border-color: rgba(80, 180, 255, 0.25);
+}
+
+@media (max-width: 950px){
+  .bracketWrap{
+    grid-template-columns: repeat(3, minmax(220px, 1fr));
+  }
+}
